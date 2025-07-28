@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+
+.about {
+  font-family:'BIZ UDPMincho';
+}
+.disk{
+   font-family:'Outfit';
+}
