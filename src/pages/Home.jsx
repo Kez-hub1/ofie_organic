@@ -30,7 +30,7 @@ const Home = () => {
             <Leaf className="h-24 w-24 text-green-600 transform rotate-12" />
           </div> */}
           <div className="absolute bottom-20 right-10 opacity-20">
-            <Sparkles className="h-32 w-32 text-green-600 transform -rotate-12" />
+            {/* <Sparkles className="h-32 w-32 text-green-600 transform -rotate-12" /> */}
           </div>
           <div className="absolute top-1/2 left-1/4 opacity-10">
             <Heart className="h-20 w-20 text-green-500" />
@@ -68,7 +68,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="relative">
+            {/* <div className="relative">
               <div className="bg-white rounded-3xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition-transform duration-300">
                 <img
                   src={shea}
@@ -79,7 +79,7 @@ const Home = () => {
                   <Leaf className="h-8 w-8 text-green-600" />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* <img src={logo} alt="" /> */}

@@ -139,7 +139,7 @@ export default function Cart() {
                                             <Truck className="w-4 h-4 text-green-600 " />
                                             <span className="text-black">Shipping</span>
                                         </div>
-                                        <span className="font-medium text-green-600">FREE</span>
+                                        <span className="font-medium text-black">GH₵10.00</span>
                                     </div>
 
                                     <div className="border-t border-amber-500 pt-4">
@@ -160,7 +160,7 @@ export default function Cart() {
 
                                 <div className="mt-4 text-center text-sm text-black">
                                     <p>Secure checkout with 256-bit SSL encryption</p>
-                                    <p>Free returns within 30 days</p>
+                                    {/* <p>Free returns within 30 days</p> */}
                                 </div>
                             </div>
                         </div>

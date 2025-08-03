@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Leaf } from 'lucide-react';
+import {
+  Menu, X, Leaf, User, TrendingUp, BarChart3, LogOut, ChevronDown
+} from 'lucide-react';
+import { Link } from 'react-router'; // FIXED: Correct import
 import logo from "../assets/logo2.png";
-import { Link } from 'react-router';
 import cart from "../assets/cart.svg";
 import search from "../assets/search.svg";
 import admin from "../assets/admin.svg";
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,80 +28,102 @@ const Navbar = () => {
     }
     setIsMenuOpen(false);
   };
+
   return (
-  <div>
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-lg' : 'bg-white'
-    }`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-2">
-            <Link to="/">
-              <img src={logo} alt="logoofie" className='w-28 mt-4 h-full' />
-            </Link>
-        </div>
-          <div className="flex items-center justify-center">
-          <nav className="hidden md:flex space-x-8 items-center">
-            {['Home', 'Products', 'Contact'].map((item) => (
-              <Link to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} key={item}>
-              <button
-                // key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                className={`text-sm font-medium transition-colors hover:text-yellow-500 ${
-                  isScrolled ? 'text-black' : 'text-black'
-                }`}
-              >
-                {item}
-              </button>
+          <Link to="/">
+            <img src={logo} alt="logoofie" className="w-28 mt-4 h-full" />
+          </Link>
+
+          <nav className="hidden md:flex items-center space-x-6">
+            {['Home', 'Products', 'About', 'Contact'].map(item => (
+              <Link key={item} to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}>
+                <button
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className={`text-sm font-medium hover:text-yellow-500 transition-colors ${isScrolled ? 'text-black' : 'text-black'}`}
+                >
+                  {item}
+                </button>
               </Link>
             ))}
-             <div className='flex items-center w-30 ml-10 '>
-            {/* <img src={search} alt="" className='w-9 h-5' /> */}
-            <Link to="/cart">
-              <img src={cart} alt="" className='w-20 h-10' />
-            </Link>
-            <img src={admin} alt="" className='w-10 h-5' />
-          </div>
 
+            <div className="flex items-center ml-6 space-x-4 relative">
+              <Link to="/cart">
+                <img src={cart} alt="Cart" className="w-8 h-8" />
+              </Link>
+
+              <div
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="cursor-pointer flex items-center"
+              >
+                <img src={admin} alt="Admin" className="w-6 h-6" />
+                <ChevronDown size={16} className="ml-1" />
+              </div>
+
+              
+            </div>
+            {showProfileDropdown && (
+                <div className="absolute top-10 right-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  <div className="px-4 py-2 border-b">
+                    <p className="text-sm font-medium text-gray-900">Account Menu</p>
+                  </div>
+                  <Link to="/user-profile" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <User size={16} />
+                    My Profile
+                  </Link>
+                  <Link to="/investor" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <TrendingUp size={16} />
+                    Become an Investor
+                  </Link>
+                  <Link to="/board" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <BarChart3 size={16} />
+                    Dashboard
+                  </Link>
+                  <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+                    <LogOut size={16} />
+                    Sign Out
+                  </button>
+                </div>
+              )}
           </nav>
-         </div>
-           <div className='flex items-center w-30 ml-10 md:hidden '>
-            <img src={search} alt="" className='w-9 h-5' />
+
+          <div className="flex items-center md:hidden space-x-3">
+            <img src={search} alt="Search" className="w-5 h-5" />
             <Link to="/cart">
-              <img src={cart} alt="" className='w-20 h-10' />
+              <img src={cart} alt="Cart" className="w-8 h-8" />
             </Link>
-            <img src={admin} alt="" className='w-10 h-5' />
+            <img src={admin} alt="Admin" className="w-6 h-6" />
           </div>
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden ${isScrolled ? 'text-black' : 'text-black'}`}
+            className="md:hidden text-black"
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* small screens nav links */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {['Home', 'Products', 'Contact'].map((item) => (
-              <Link to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} key={item}>
-              <button
-                // key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                className="block px-3 py-2 text-base font-medium text-black hover:text-yellow-500 hover:bg-yellow-50 w-full text-left"
-              >
-                {item}
-              </button>
+          <div className="px-4 py-3 space-y-2">
+            {['Home', 'Products', 'Contact'].map(item => (
+              <Link key={item} to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}>
+                <button
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="block w-full text-left px-4 py-2 text-sm font-medium text-black hover:text-yellow-500 hover:bg-yellow-50"
+                >
+                  {item}
+                </button>
               </Link>
             ))}
           </div>
         </div>
       )}
     </header>
-    </div>
   );
 };
 
