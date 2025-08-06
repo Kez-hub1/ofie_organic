@@ -9,7 +9,7 @@ import {
   LogOut,
   ChevronDown,
 } from "lucide-react";
-import { Link } from "react-router"; // FIXED: Correct import
+import { Link } from "react-router";
 import logo from "../assets/logo2.png";
 import cart from "../assets/cart.svg";
 import search from "../assets/search.svg";
@@ -49,7 +49,7 @@ const Navbar = () => {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
-            {["Home", "Products", "About", "Contact"].map((item) => (
+            {["Home", "Products", "Blog", "Contact"].map((item) => (
               <Link
                 key={item}
                 to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
@@ -92,20 +92,6 @@ const Navbar = () => {
                   >
                     <User size={16} />
                     My Profile
-                  </Link>
-                  <Link
-                    to="/investor"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    <TrendingUp size={16} />
-                    Become an Investor
-                  </Link>
-                  <Link
-                    to="/board"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    <BarChart3 size={16} />
-                    Dashboard
                   </Link>
                   <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
                     <LogOut size={16} />
