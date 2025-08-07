@@ -16,7 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1 space-y-6">
             <div className="flex items-center space-x-2">
-              <Leaf className="h-8 w-8 text-yellow-400" />
+              {/* <Leaf className="h-8 w-8 text-yellow-400" /> */}
               <h2 className="text-2xl font-bold text-white">Ofie Organics</h2>
             </div>
             <p className="text-green-100 leading-relaxed text-sm">
@@ -116,7 +116,7 @@ const Footer = () => {
         <div className="border-t border-green-600 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
-              <Leaf className="h-5 w-5 text-yellow-400" />
+              {/* <Leaf className="h-5 w-5 text-yellow-400" /> */}
               <p className="text-green-200 text-sm">
                 2025 Ofie Organics & Botanicals. Naturally crafted with love.
               </p>

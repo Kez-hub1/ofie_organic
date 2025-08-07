@@ -170,17 +170,30 @@ const Home = () => {
                 alt="Natural ingredients"
                 className="w-full h-96 object-cover rounded-2xl shadow-lg"
               />
-              {/* <div className="absolute -bottom-6 -left-6 bg-yellow-400 rounded-2xl p-6 shadow-lg border border-yellow-500"> */}
-                {/* <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-1">
-                    5+
-                  </div>
-                  <div className="text-sm text-black">Years Experience</div>
-                </div> */}
-              {/* </div> */}
             </div>
           </div>
         </div>
+      </section>
+      <section>
+        <div className="mt-20 text-center">
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Ready to Transform Your Beauty Routine?
+              </h3>
+              <p className="text-gray-600 mb-6 text-lg">
+                Join thousands of satisfied customers who've discovered the power of natural beauty. 
+                We offer custom orders, wholesale solutions, and personalized beauty consultations.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition-colors font-semibold shadow-md hover:shadow-lg">
+                  Shop Now
+                </button>
+                <button className="text-green-600 px-8 py-3 rounded-full hover:bg-green-50 transition-colors font-semibold">
+                  Get Beauty Tips →
+                </button>
+              </div>
+            </div>
+          </div>
       </section>
       <Footer />
     </>

@@ -235,41 +235,6 @@ export default function Cart() {
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                      <Truck className="w-4 h-4 text-green-600" />
-                      <span className="text-gray-700">Shipping</span>
-                    </div>
-                    <div className="text-right">
-                      {shipping === 0 ? (
-                        <span className="font-semibold text-green-600">
-                          FREE
-                        </span>
-                      ) : (
-                        <span className="font-semibold text-gray-900">
-                          ₵{shipping.toFixed(2)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {shipping === 0 && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                      <p className="text-sm text-green-700 font-medium">
-                        🎉 You qualify for free shipping!
-                      </p>
-                    </div>
-                  )}
-
-                  {shipping > 0 && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                      <p className="text-sm text-yellow-700">
-                        Add ₵{(100 - subtotal).toFixed(2)} more for free
-                        shipping
-                      </p>
-                    </div>
-                  )}
-
                   <div className="border-t border-gray-200 pt-4">
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-gray-900">
