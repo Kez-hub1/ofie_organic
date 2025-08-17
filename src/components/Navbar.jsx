@@ -8,6 +8,8 @@ import {
   BarChart3,
   LogOut,
   ChevronDown,
+  LogIn,
+  Settings,
 } from "lucide-react";
 import { Link } from "react-router";
 import logo from "../assets/logo2.png";
@@ -50,22 +52,22 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo - Enhanced */}
             <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center group">
+              {/* <Link to="/" className="flex items-center group"> */}
                 <img 
                   src={logo} 
                   alt="Ofie Organics" 
                   className="w-32 h-auto transition-transform duration-200 group-hover:scale-105" 
                 />
-              </Link>
+              {/* </Link> */}
             </div>
 
             {/* Navigation Links - Enhanced Center Design */}
             <nav className="hidden lg:flex items-center justify-center flex-1">
-              <div className="flex items-center bg-white/80 backdrop-blur-sm rounded-full px-8 py-3 shadow-sm border border-gray-100">
+              <div className="flex items-center">
                 {[
                   { name: "Home", path: "/" },
-                  { name: "Products", path: "/products" },
-                  { name: "About", path: "/about" },
+                  { name: "About", path: "/#about" },
+                  { name: "Products", path: "/#products" },
                   { name: "Contact", path: "/contact" }
                 ].map((item, index) => (
                   <div key={item.name} className="flex items-center">
@@ -118,11 +120,19 @@ const Navbar = () => {
                 {showProfileDropdown && (
                   <div className="absolute top-12 right-0 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-900">Admin Panel</p>
+                      {/* <p className="text-sm font-semibold text-gray-900">Me</p> */}
                       <p className="text-xs text-gray-500">Manage your store</p>
                     </div>
                     
                     <div className="py-2">
+                       <Link
+                        to="/login"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        <LogIn size={16} />
+                        <span>Login</span>
+                      </Link>
                       <Link
                         to="/user-profile"
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
@@ -131,14 +141,15 @@ const Navbar = () => {
                         <User size={16} />
                         <span>My Profile</span>
                       </Link>
-                      <Link
+                      {/* <Link
                         to="/dashboard"
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
                         onClick={() => setShowProfileDropdown(false)}
                       >
-                        <BarChart3 size={16} />
-                        <span>Dashboard</span>
-                      </Link>
+                        <Settings size={16} />
+                        <span>Settings</span>
+                      </Link> */}
+                      
                     </div>
                     
                     <div className="border-t border-gray-100 pt-2">

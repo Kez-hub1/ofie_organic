@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Products from "./Products";
 import Card from "../components/Card";
-import { ArrowRight, Leaf, Sparkles, Heart } from "lucide-react";
+import { ArrowRight, Leaf, Sparkles, Heart, Award, Shield } from "lucide-react";
 import image1 from "../assets/image.png";
 import shea from "../assets/shea.png";
 import Footer from "../components/Footer";
@@ -17,6 +17,29 @@ const Home = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+   const features = [
+    {
+      icon: <Leaf className="h-8 w-8" />,
+      title: "100% Organic",
+      description: "All our products are certified organic and free from harmful chemicals, pesticides, and synthetic additives."
+    },
+    {
+      icon: <Award className="h-8 w-8" />,
+      title: "Premium Quality",
+      description: "We source the finest ingredients from trusted suppliers and maintain the highest quality standards in production."
+    },
+    {
+      icon: <Heart className="h-8 w-8" />,
+      title: "Skin Loving",
+      description: "Our formulations are designed to nourish and protect your skin while delivering visible results."
+    },
+    {
+      icon: <Shield className="h-8 w-8" />,
+      title: "Cruelty Free",
+      description: "We never test on animals and are committed to ethical and sustainable business practices."
+    }
+  ];
+
 
   return (
     <>
@@ -24,7 +47,7 @@ const Home = () => {
 
       {/* Hero Section */}
       <section
-        id="home"
+        id="home" 
         className="relative min-h-screen flex items-center justify-center bg-[#F5FBF2] overflow-hidden"
       >
         {/* <img src={wall} alt="" className="absolute inset-0 w-full h-full object-cover" /> */}
@@ -32,10 +55,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-green-600 leading-tight mb-4">
-                Welcome to <br /><span className="text-green-600">Ofie Organics</span>
+              <h1 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-[#008236] leading-tight mb-4">
+                Welcome to <br /><span className="text-[#008236]">Ofie Organics</span>
               </h1>
-              <p className="text-base font-medium italic text-green-900 mt-[-1rem] mb-4">
+              <p className="text-base font-medium italic text-[#F59F26]  mt-[-1rem] mb-4">
                 Nature’s touch, bottled for your beauty.
               </p>
               <p className="text-m md:text-md disk text-black mb-4 max-w-2xl opacity-90">
@@ -48,7 +71,7 @@ const Home = () => {
                 <Link to="/products">
                 <button
                   onClick={scrollToProducts}
-                  className="bg-green-600 text-white px-8 py-4 rounded-full hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-lg mt-6 font-medium shadow-lg"
+                  className="bg-[#F59F26] text-white px-8 py-4 rounded-full hover:bg-[#008236] transition-colors cursor-pointer flex items-center justify-center space-x-2 text-lg mt-6 font-medium shadow-lg"
                 >
                   <span>Shop Now</span>
                   <ArrowRight className="h-5 w-5" />
@@ -59,97 +82,42 @@ const Home = () => {
                 </button> */}
               </div>
             </div>
+              <div className="relative">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 transform  transition-transform duration-300">
+              <img 
+                src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Organic beauty products"
+                className="w-full h-80 object-cover rounded-2xl"
+              />
+              <div className="absolute -top-4 -right-4 bg-green-100 rounded-full p-4">
+
+              </div>
+              </div>
+              </div>
 
           
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-black rounded-full flex justify-center">
             <div className="w-1 h-3 bg-black rounded-full mt-2 animate-pulse"></div>
           </div>
-        </div>
+        </div> */}
       </section>
-
-      {/* Featured Products Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured <span className="text-green-600">Products</span>
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover our premium collection of organic beauty products crafted with nature's finest ingredients
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card 
-              product={{
-                id: 1,
-                name: 'Organic Shea Butter Cream',
-                price: 45.00,
-                originalPrice: 55.00,
-                image: shea,
-                description: 'Pure organic shea butter cream for smooth, nourished skin',
-                isOnSale: true,
-                isNew: false,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
-            
-            <Card 
-              product={{
-                id: 2,
-                name: 'Natural Coconut Oil Moisturizer',
-                price: 38.00,
-                image: image1,
-                description: 'Hydrating coconut oil moisturizer for all skin types',
-                isOnSale: false,
-                isNew: true,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
-            
-            <Card 
-              product={{
-                id: 3,
-                name: 'Organic Honey Face Mask',
-                price: 32.00,
-                image: logo,
-                description: 'Rejuvenating honey face mask for glowing skin',
-                isOnSale: false,
-                isNew: false,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link to="/products">
-              <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold transition-colors duration-200 flex items-center gap-2 mx-auto">
-                View All Products
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
       <section
         id="about"
-        className="py-20 bg-gradient-to-br from-yellow-50 to-yellow-100"
+        className="py-8 bg-[#E6FAEE]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-6">
+           <h2 className="text-3xl md:text-5xl font-bold text-center  mb-4 justify-center mx-auto text-black ">
                 About Us
               </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              {/* <h2 className="text-3xl md:text-4xl font-bold text-black mb-6"> */}
+                
+              {/* </h2> */}
               
               <p className="text-m disk text-black mb-8 leading-relaxed opacity-90">
                 Introducing the Ofie brand Home of natural hand crafted and
@@ -172,12 +140,95 @@ const Home = () => {
               />
             </div>
           </div>
+           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="text-center group">
+              <div className="bg-green-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+                <div className="text-[#008236]">
+                  {feature.icon}
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+            </div>
+          ))}
+        </div>
         </div>
       </section>
-      <section>
-        <div className="mt-20 text-center">
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+
+      {/* Featured Products Section */}
+      <section id="products" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+              Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Discover our collection of organic products crafted with nature's finest ingredients
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card 
+              product={{
+                id: 1,
+                name: 'Organic Shea Butter Cream',
+                price: 45.00,
+                image: shea,
+                description: 'Pure organic shea butter cream for smooth, nourished skin',
+                // isOnSale: true,
+                // isNew: false,
+                category: 'Skincare'
+              }}
+              onAddToCart={(product) => console.log('Added to cart:', product)}
+            />
+            
+            <Card 
+              product={{
+                id: 2,
+                name: 'Natural Coconut Oil Moisturizer',
+                price: 38.00,
+                image: image1,
+                description: 'Hydrating coconut oil moisturizer for all skin types',
+                isOnSale: false,
+                // isNew: true,
+                category: 'Skincare'
+              }}
+              onAddToCart={(product) => console.log('Added to cart:', product)}
+            />
+            
+            <Card 
+              product={{
+                id: 3,
+                name: 'Organic Honey Face Mask',
+                price: 32.00,
+                image: logo,
+                description: 'Rejuvenating honey face mask for glowing skin',
+                isOnSale: false,
+                // isNew: false,
+                category: 'Skincare'
+              }}
+              onAddToCart={(product) => console.log('Added to cart:', product)}
+            />
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link to="/products">
+              <button className="bg-[#F59F26] hover:bg-[#008236]  text-white px-8 py-3 rounded-full font-semibold transition-colors duration-200 flex items-center gap-2 cursor-pointer mx-auto">
+                View All Products
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      
+      <section className="py-7 md:h-90 bg-white">
+        <div className="mt-0  text-center">
+            <div className="bg-[#F5FBF2] backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 ">
                 Ready to Transform Your Beauty Routine?
               </h3>
               <p className="text-gray-600 mb-6 text-lg">
@@ -185,12 +236,15 @@ const Home = () => {
                 We offer custom orders, wholesale solutions, and personalized beauty consultations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition-colors font-semibold shadow-md hover:shadow-lg">
+                <Link to= "/products">
+                <button className="bg-[#F59F26] text-white px-8 py-3 rounded-full hover:bg-[#008236] cursor-pointer transition-colors font-semibold shadow-md hover:shadow-lg">
                   Shop Now
                 </button>
-                <button className="text-green-600 px-8 py-3 rounded-full hover:bg-green-50 transition-colors font-semibold">
+                </Link>
+                {/* <button className="text-green-600 px-8 py-3 rounded-full h
+                over:bg-green-50 transition-colors font-semibold">
                   Get Beauty Tips →
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import image1 from '../assets/image1.jpg';
 import image3 from '../assets/image3.jpg';
 
 const Products = () => {
+  // const [cartItems, setCartItems] = useState({});
   const products = [
     {
       id: 1,
@@ -17,7 +18,7 @@ const Products = () => {
       rating: 4.9,
       reviews: 156,
       category: "Skincare",
-      isOnSale: true,
+      // isOnSale: true,
       isNew: false
     },
     {
@@ -29,8 +30,8 @@ const Products = () => {
       rating: 4.8,
       reviews: 89,
       category: "Hair Care",
-      isOnSale: false,
-      isNew: true
+      // isOnSale: false,
+      // isNew: true
     },
     {
       id: 3,
@@ -41,8 +42,8 @@ const Products = () => {
       rating: 4.9,
       reviews: 203,
       category: "Body Care",
-      isOnSale: true,
-      isNew: false
+      // isOnSale: false,
+      // isNew: true,
     },
     {
       id: 4,
@@ -53,8 +54,8 @@ const Products = () => {
       rating: 4.7,
       reviews: 134,
       category: "Body Care",
-      isOnSale: true,
-      isNew: false
+      // isOnSale: true,
+      // isNew: false
     },
     
   ];
@@ -63,20 +64,57 @@ const Products = () => {
     console.log('Adding to cart:', product);
 
   };
+  //  const addToCart = async (itemId, size) => {
+  //   if (!TOKEN ) {
+  //     toast.error("SIGN IN TO ADD TO CART");
+  //     return;
+  //   }
+    // const storedUserId = localStorage.getItem("USER_ID");
+
+  //   let cartData = structuredClone(cartItems);
+
+  //   if (cartData[itemId]) {
+  //     if (cartData[itemId][size]) {
+  //       cartData[itemId][size] += 1;
+  //     } else {
+  //       cartData[itemId][size] = 1;
+  //     }
+  //   } else {
+  //     cartData[itemId] = {};
+  //     cartData[itemId][size] = 1;
+  //   }
+
+  //   setCartItems(cartData);
+  // };
+  // const getAllProducts = async () => {
+  //   try {
+  //     const response = await apiClient.get(
+  //       "the continuation of the url from backend",
+  //       {
+  //         headers: {
+  //           Authorization: Bearer ${localStorage.getItem("TOKEN")}, //Do this if she added authorization for getting the products
+  //         },
+  //       }
+  //     );
+      // console.log(response.data); //this here will show in the console you can then check the structure of the data grom the backend using that and know how to render it in ur UI
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen mt-5 bg-gray-50 py-12">
+      <div className="min-h-screen mt-9 bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Our Premium Products
+              Our Products
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Discover our collection of organic beauty products, carefully crafted 
               with natural ingredients for your skin and hair care needs.
-            </p>
+            </p> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

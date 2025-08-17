@@ -79,7 +79,7 @@ const Contact = () => {
             </h2>
             <p className="text-lg text-black max-w-2xl mx-auto opacity-80">
               Have questions about our products or want to learn more about our
-              organic skincare line? We'd love to hear from you!
+              organic Products? We'd love to hear from you!
             </p>
           </div>
 
@@ -166,7 +166,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 font-medium shadow-md"
+                  className="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 font-medium cursor-pointer shadow-md"
                 >
                   <Send className="h-5 w-5" />
                   <span>Send Message</span>
@@ -187,7 +187,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-medium text-black">Phone</h4>
-                      <p className="text-black opacity-80">+1 (555) 123-4567</p>
+                      <p className="text-black opacity-80">+233 072 4290</p>
                     </div>
                   </div>
 
@@ -198,7 +198,7 @@ const Contact = () => {
                     <div>
                       <h4 className="font-medium text-black">Email</h4>
                       <p className="text-black opacity-80">
-                        hello@purebotanics.com
+                        ofieorganics@gmail.com
                       </p>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ const Contact = () => {
                     placeholder="Enter your email"
                     className="flex-1 px-4 py-3 border border-yellow-300 rounded-l-lg focus:ring-2 focus:ring-green-600 focus:border-transparent bg-white"
                   />
-                  <button className="bg-green-600 text-white px-6 py-3 rounded-r-lg hover:bg-green-700 transition-colors shadow-md">
+                  <button className="bg-green-600 text-white px-6 py-3 rounded-r-lg hover:bg-green-700 cursor-pointer transition-colors shadow-md">
                     Subscribe
                   </button>
                 </div>
