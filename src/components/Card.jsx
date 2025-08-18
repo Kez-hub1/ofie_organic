@@ -23,27 +23,28 @@ const Card = ({
   const [cartCount, setCartCount] = useState(0);
 
   const handleAddToCart = async (e) => {
-
     e.preventDefault();
+    // setCartCount((prevCount) => prevCount + 1);
     const data = {
       productId: product.id,
-      quantity: cartCount,
-    }
+      quantity: cartCount + 1,
+    };
     try {
-      const response = await axios.post("https://keziah-api.onrender.com/api/cart/add" , data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
-        },
-
-      });
-       setCartCount(prevCount => prevCount + 1);
+      const response = await axios.post(
+        "https://keziah-api.onrender.com/api/cart/add",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+          },
+        }
+      );
     } catch (error) {
-
-      
-    } 
-    
+      console.log(error);
+    }
   };
+  console.log("Access token:", localStorage.getItem("ACCESS_TOKEN"));
 
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group max-w-sm mx-auto">
