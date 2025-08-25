@@ -370,10 +370,10 @@ export default function CheckOut() {
                 </form>
               )}
             </div>
-            <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
+             <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
               Pay Now
             </button>
-          </div>
+          </div> {/* ✅ CLOSE LEFT COLUMN */}
 
           {/* RIGHT: Order Summary */}
           <div className="p-6 h-fit sticky top-20 bg-white rounded-lg">
@@ -461,10 +461,10 @@ export default function CheckOut() {
             </div>
 
             {/* Place Order Button */}
-            <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
+            {/* <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
               <CreditCard className="w-5 h-5" />
               Place Order - ₵{total.toFixed(2)}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

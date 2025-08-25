@@ -13,6 +13,9 @@ import Otp from "./pages/Otp";
 import SingleProduct from "./components/Singleproduct";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
+import PaymentPage from "./pages/Paymentpage";
+import NotFound from "./pages/NotFound";
+
 
 const router = createBrowserRouter([
   {
@@ -58,6 +61,14 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/payment",
+    element: <PaymentPage />,
+  },
+  {
+    path:"/notfound",
+    element: <NotFound/>
   },
 ]);
 
