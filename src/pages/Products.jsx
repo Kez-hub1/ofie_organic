@@ -2,16 +2,27 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
-import { fetchProducts } from '../api/client'; // adjust path if needed
+import { fetchProducts, addToCart } from '../api/client.js';
 
-const TOKEN = "<token>"; // <-- Replace with your real token
+const TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cartLoading, setCartLoading] = useState(false);
 
-  const handleAddToCart = (product) => {
-    console.log('Adding to cart:', product);
+  const handleAddToCart = async (product, quantity = 1) => {
+    setCartLoading(true);
+    try {
+      await addToCart(product.id, quantity);
+      console.log('Successfully added to cart:', product);
+      // You can add a success notification here
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      // You can add an error notification here
+    } finally {
+      setCartLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -48,6 +59,7 @@ const Products = () => {
                   key={product.id}
                   product={product}
                   onAddToCart={handleAddToCart}
+                  isCartLoading={cartLoading}
                 />
               ))}
             </div>

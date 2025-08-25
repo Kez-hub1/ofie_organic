@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Leaf,
   ShoppingCart,
@@ -9,12 +9,14 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import image4 from "../assets/image4.jpg";
-import image7 from "../assets/image7.jpg";
-import image9 from "../assets/image3.jpg";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
+import { apiClient } from "../api/client";
 
 export default function CheckOut() {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const [selectedCountry, setSelectedCountry] = useState({
     name: "Ghana",
     code: "+233",
@@ -54,56 +56,89 @@ export default function CheckOut() {
   const [shippingMethod, setShippingMethod] = useState("");
   const [selectedOption, setSelectedOption] = useState("same");
 
-  // Cart Items
-  const [cartItems] = useState([
-    {
-      id: 1,
-      name: "Melanu Body Butter Cream",
-      price: 65.0,
-      quantity: 1,
-      total: 65.0,
-      image: image4,
-      alt: "Body Butter Cream",
-      category: "Body Care",
-    },
-    {
-      id: 2,
-      name: "Hair Treatment Oil",
-      price: 70.0,
-      quantity: 1,
-      total: 70.0,
-      image: image7,
-      alt: "Hair Treatment Oil",
-      category: "Hair Care",
-    },
-    {
-      id: 3,
-      name: "Cupid's Glow Face Serum",
-      price: 80.0,
-      quantity: 1,
-      total: 80.0,
-      image: image9,
-      alt: "Face Serum",
-      category: "Skincare",
-    },
-  ]);
+  // Fetch cart items from API
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        const response = await apiClient.get('/api/cart', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCartItems(response.data.items || response.data);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+        setError('Failed to load cart items');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+    fetchCartItems();
+  }, []);
+
+  const calculateSubtotal = () => {
+    return cartItems.reduce((sum, item) => {
+      const itemPrice = item.price || item.product?.price || 0;
+      const itemTotal = item.total || itemPrice * item.quantity;
+      return sum + itemTotal;
+    }, 0);
+  };
+
+  const subtotal = calculateSubtotal();
   const shippingCost = shippingMethod
     ? parseFloat(
         shippingOptions
           .find((opt) => opt.label === shippingMethod)
-          ?.price.replace("₵", "")
+          ?.price.replace("₵", "") || "0"
       )
     : 0;
   const total = subtotal + shippingCost;
 
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+            <p>Loading checkout...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (error || cartItems.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-gray-600 mb-4">
+              {error || "Your cart is empty"}
+            </p>
+            <Link to="/products">
+              <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+                Continue Shopping
+              </button>
+            </Link>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
+      <Navbar />
       <div className="bg-white px-4 py-8">
         <div className="max-w-6xl h-[7px] mx-auto">
           <Link to="/cart">
-            <button className="flex items-center text-black font-mono mt-5 bg-[#F5FBF2] rounded-2xl px-4 cursor-pointer mb-4">
+            <button className="flex items-center text-black font-mono mt-5 bg-[#F5FBF2] rounded-2xl px-4 py-2 cursor-pointer mb-4">
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Cart
             </button>
@@ -251,7 +286,7 @@ export default function CheckOut() {
               </div>
               <div className="flex bg-gray-100 rounded-b-xl p-3">
                 <p className="text-center text-sm">
-                  After clicking “Pay now”, you will be redirected to PayStack
+                  After clicking "Pay now", you will be redirected to PayStack
                   to complete your purchase securely.
                 </p>
               </div>
@@ -262,7 +297,6 @@ export default function CheckOut() {
               <p>Billing address</p>
             </div>
             <div className="space-y-4">
-              {/* Same as shipping address */}
               <div className="border border-blue-400 rounded-t-lg p-4 flex items-center gap-2">
                 <input
                   type="radio"
@@ -275,7 +309,6 @@ export default function CheckOut() {
                 <p>Same as shipping address</p>
               </div>
 
-              {/* Use different address */}
               <div className="border border-blue-400 rounded-lg p-4 flex items-center gap-2">
                 <input
                   type="radio"
@@ -288,7 +321,6 @@ export default function CheckOut() {
                 <p>Use a different address</p>
               </div>
 
-              {/* Conditional Form */}
               {selectedOption === "different" && (
                 <form className="border border-gray-300 rounded-lg p-4 space-y-4">
                   <div>
@@ -338,10 +370,10 @@ export default function CheckOut() {
                 </form>
               )}
             </div>
-             <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
+            <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
               Pay Now
             </button>
-          </div> {/* ✅ CLOSE LEFT COLUMN */}
+          </div>
 
           {/* RIGHT: Order Summary */}
           <div className="p-6 h-fit sticky top-20 bg-white rounded-lg">
@@ -351,30 +383,39 @@ export default function CheckOut() {
 
             {/* Items */}
             <div className="space-y-4 mb-6">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.alt}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">{item.name}</h3>
-                    <p className="text-sm text-gray-600">{item.category}</p>
-                    <p className="text-sm text-gray-600">
-                      Quantity: {item.quantity}
-                    </p>
+              {cartItems.map((item) => {
+                const itemId = item.id || item._id;
+                const itemPrice = item.price || item.product?.price || 0;
+                const itemTotal = item.total || itemPrice * item.quantity;
+                const itemImage = item.image || item.product?.image;
+                const itemName = item.name || item.product?.name;
+                const itemCategory = item.category || item.product?.category;
+
+                return (
+                  <div
+                    key={itemId}
+                    className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                  >
+                    <img
+                      src={itemImage}
+                      alt={itemName}
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900">{itemName}</h3>
+                      <p className="text-sm text-gray-600">{itemCategory}</p>
+                      <p className="text-sm text-gray-600">
+                        Quantity: {item.quantity}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-gray-900">
+                        ₵{itemTotal.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-900">
-                      ₵{item.total.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Totals */}
@@ -386,7 +427,7 @@ export default function CheckOut() {
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
                 <span>
-                  {shippingCost ? `₵${shippingCost.toFixed(2)}` : "₵20.00"}
+                  {shippingCost ? `₵${shippingCost.toFixed(2)}` : "₵0.00"}
                 </span>
               </div>
               <div className="border-t border-[#F59F26] pt-3">
