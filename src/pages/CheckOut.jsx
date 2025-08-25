@@ -338,9 +338,11 @@ export default function CheckOut() {
                 </form>
               )}
             </div>
+            <Link to="/payment" >
              <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
               Pay Now
             </button>
+            </Link>
           </div> {/* ✅ CLOSE LEFT COLUMN */}
 
           {/* RIGHT: Order Summary */}
@@ -420,10 +422,10 @@ export default function CheckOut() {
             </div>
 
             {/* Place Order Button */}
-            <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
+            {/* <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
               <CreditCard className="w-5 h-5" />
               Place Order - ₵{total.toFixed(2)}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
