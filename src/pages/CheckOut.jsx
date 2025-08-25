@@ -10,13 +10,27 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router";
-import { apiClient } from "../api/client";
+import { apiClient, makePayment } from "../api/client";
+import { useNavigate } from "react-router";
 
 export default function CheckOut() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Form states
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postalCode: "",
+  });
+
   const [selectedCountry, setSelectedCountry] = useState({
     name: "Ghana",
     code: "+233",
@@ -78,6 +92,14 @@ export default function CheckOut() {
     fetchCartItems();
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const calculateSubtotal = () => {
     return cartItems.reduce((sum, item) => {
       const itemPrice = item.price || item.product?.price || 0;
@@ -95,6 +117,99 @@ export default function CheckOut() {
       )
     : 0;
   const total = subtotal + shippingCost;
+
+  // Handle payment
+  const handlePayment = async () => {
+    // Validation
+    if (!formData.email || !formData.firstName || !formData.lastName || !formData.phone || !formData.address) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    if (!shippingMethod) {
+      alert("Please select a shipping method");
+      return;
+    }
+
+    setPaymentLoading(true);
+
+    try {
+      const paymentData = {
+        email: formData.email,
+        amount: total,
+        currency: "GHS",
+        reference: `order_${Date.now()}`,
+        metadata: {
+          customer: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            phone: `${selectedCountry.code}${formData.phone}`,
+            address: formData.address,
+            city: formData.city,
+            postalCode: formData.postalCode,
+            country: selectedCountry.name,
+          },
+          shipping: {
+            method: shippingMethod,
+            cost: shippingCost,
+          },
+          items: cartItems.map(item => ({
+            id: item.id || item._id,
+            name: item.name || item.product?.name,
+            quantity: item.quantity,
+            price: item.price || item.product?.price,
+          })),
+          subtotal: subtotal,
+          total: total,
+        }
+      };
+
+      console.log('Payment data:', paymentData);
+
+      const response = await makePayment(paymentData);
+      console.log('Full Payment response:', response);
+      console.log('Response keys:', Object.keys(response));
+
+      // Try multiple possible locations for the authorization URL
+      let paystackUrl = null;
+      
+      // Check common response structures
+      if (response.authorization_url) {
+        paystackUrl = response.authorization_url;
+      } else if (response.data?.authorization_url) {
+        paystackUrl = response.data.authorization_url;
+      } else if (response.url) {
+        paystackUrl = response.url;
+      } else if (response.paymentUrl) {
+        paystackUrl = response.paymentUrl;
+      } else if (response.checkout_url) {
+        paystackUrl = response.checkout_url;
+      } else {
+        // If none of the above, let's check all properties for URLs
+        const responseStr = JSON.stringify(response);
+        const urlMatch = responseStr.match(/(https:\/\/checkout\.paystack\.com[^\s"]*)/);
+        if (urlMatch) {
+          paystackUrl = urlMatch[1];
+        }
+      }
+
+      console.log('Extracted Paystack URL:', paystackUrl);
+
+      if (paystackUrl) {
+        console.log('Redirecting to:', paystackUrl);
+        window.location.href = paystackUrl; // Redirect to Paystack
+      } else {
+        console.error('No payment URL found in response:', response);
+        throw new Error(`No payment URL found. Response structure: ${JSON.stringify(Object.keys(response))}`);
+      }
+
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert(`Payment failed: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -148,7 +263,7 @@ export default function CheckOut() {
 
       <div className="min-h-screen bg-gray-50 pt-20 pb-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
+
           {/* LEFT: Delivery Form */}
           <div className="bg-white p-6">
             <h2 className="text-2xl font-semibold mb-4">Delivery Details</h2>
@@ -181,30 +296,56 @@ export default function CheckOut() {
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  First name
+                  First name *
                 </label>
                 <input
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
                   className="w-full border-gray-500 border rounded p-2"
                   placeholder="Enter first name"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Last name
+                  Last name *
                 </label>
                 <input
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
                   className="w-full border border-gray-500 rounded p-2"
                   placeholder="Enter last name"
+                  required
                 />
               </div>
             </div>
 
+            {/* Email */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Email *</label>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full border border-gray-500 rounded p-2"
+                placeholder="Enter email address"
+                required
+              />
+            </div>
+
             {/* Address */}
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Address</label>
+              <label className="block text-sm font-medium mb-1">Address *</label>
               <input
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
                 className="w-full border border-gray-500 rounded p-2"
                 placeholder="Enter address"
+                required
               />
             </div>
 
@@ -213,6 +354,9 @@ export default function CheckOut() {
               <div>
                 <label className="block text-sm font-medium mb-1">City</label>
                 <input
+                  name="city"
+                  value={formData.city}
+                  onChange={handleInputChange}
                   className="w-full border border-gray-500 rounded p-2"
                   placeholder="Enter city"
                 />
@@ -222,6 +366,9 @@ export default function CheckOut() {
                   Postal code (optional)
                 </label>
                 <input
+                  name="postalCode"
+                  value={formData.postalCode}
+                  onChange={handleInputChange}
                   className="w-full border border-gray-500 rounded p-2"
                   placeholder="Enter postal code"
                 />
@@ -230,21 +377,25 @@ export default function CheckOut() {
 
             {/* Phone */}
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Phone</label>
+              <label className="block text-sm font-medium mb-1">Phone *</label>
               <div className="flex">
                 <span className="flex items-center px-3 border border-gray-500 border-r-0 rounded-l">
                   {selectedCountry.flag} {selectedCountry.code}
                 </span>
                 <input
+                  name="phone"
                   type="tel"
+                  value={formData.phone}
+                  onChange={handleInputChange}
                   className="w-full border border-gray-500 rounded-r p-2"
                   placeholder="Enter phone number"
+                  required
                 />
               </div>
             </div>
 
             {/* Shipping method */}
-            <h3 className="text-lg font-semibold mt-6 mb-3">Shipping method</h3>
+            <h3 className="text-lg font-semibold mt-6 mb-3">Shipping method *</h3>
             <div className="space-y-3">
               {shippingOptions.map((opt) => (
                 <label
@@ -282,7 +433,7 @@ export default function CheckOut() {
                 All transactions are secure and encrypted
               </p>
               <div className="flex border rounded-t-xl p-3 border-blue-400">
-                <p>Leashpay</p>
+                <p>PayStack Payment Gateway</p>
               </div>
               <div className="flex bg-gray-100 rounded-b-xl p-3">
                 <p className="text-center text-sm">
@@ -322,7 +473,7 @@ export default function CheckOut() {
               </div>
 
               {selectedOption === "different" && (
-                <form className="border border-gray-300 rounded-lg p-4 space-y-4">
+                <div className="border border-gray-300 rounded-lg p-4 space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Name</label>
                     <input
@@ -367,13 +518,28 @@ export default function CheckOut() {
                       placeholder="Enter phone number"
                     />
                   </div>
-                </form>
+                </div>
               )}
             </div>
-             <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
-              Pay Now
+
+            <button
+              onClick={handlePayment}
+              disabled={paymentLoading}
+              className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {paymentLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  Processing Payment...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="w-5 h-5" />
+                  Pay Now - ₵{total.toFixed(2)}
+                </>
+              )}
             </button>
-          </div> {/* ✅ CLOSE LEFT COLUMN */}
+          </div>
 
           {/* RIGHT: Order Summary */}
           <div className="p-6 h-fit sticky top-20 bg-white rounded-lg">
@@ -459,12 +625,6 @@ export default function CheckOut() {
                 </div>
               </div>
             </div>
-
-            {/* Place Order Button */}
-            {/* <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
-              <CreditCard className="w-5 h-5" />
-              Place Order - ₵{total.toFixed(2)}
-            </button> */}
           </div>
         </div>
       </div>

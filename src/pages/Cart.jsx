@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, Minus, Plus, Trash } from "lucide-react";
+import { ArrowLeft, Trash } from "lucide-react";
 import { Link } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { apiClient } from "../api/client";
+import { apiClient, updateCartItem, deleteCartItem, clearCart } from "../api/client.js";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState(null); 
+  const [clearingCart, setClearingCart] = useState(false); 
 
-  // Fetch cart items from API
+  
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
         const token = localStorage.getItem("ACCESS_TOKEN");
-        const response = await apiClient.get('/api/cart', {
+        const response = await apiClient.get("/api/cart", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setCartItems(response.data.items || response.data);
       } catch (error) {
-        console.error('Error fetching cart:', error);
-        setError('Failed to load cart items');
+        console.error("Error fetching cart:", error);
+        setError("Failed to load cart items");
       } finally {
         setLoading(false);
       }
@@ -32,52 +34,88 @@ export default function Cart() {
     fetchCartItems();
   }, []);
 
-  const handleQuantityChange = async (id, delta) => {
+  
+  const handleQuantityChange = async (cartItemId, newQuantity) => {
+    
+    const quantity = Math.max(1, parseInt(newQuantity) || 1);
+    
+    setActionLoading(cartItemId);
     try {
-      const item = cartItems.find(item => item.id === id || item._id === id);
-      const itemPrice = item.price || item.product?.price || 0;
-      const newQuantity = Math.max(1, item.quantity + delta);
-      
-      const token = localStorage.getItem("ACCESS_TOKEN");
-      await apiClient.put(`/api/cart/${id}`, 
-        { quantity: newQuantity },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await updateCartItem(cartItemId, quantity);
 
       setCartItems((items) =>
-        items.map((item) => {
-          const itemId = item.id || item._id;
-          const currentPrice = item.price || item.product?.price || 0;
-          return itemId === id
-            ? {
-                ...item,
-                quantity: newQuantity,
-                total: newQuantity * currentPrice,
-              }
-            : item;
-        })
+        items.map((i) =>
+          i._id === cartItemId ? { ...i, quantity: quantity } : i
+        )
       );
     } catch (error) {
-      console.error('Error updating quantity:', error);
+      console.error("Error updating quantity:", error);
+      alert("Failed to update quantity. Please try again.");
+    } finally {
+      setActionLoading(null);
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("ACCESS_TOKEN");
-      await apiClient.delete(`/api/cart/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  const handleQuantityInputChange = (cartItemId, value) => {
+    setCartItems((items) =>
+      items.map((i) =>
+        i._id === cartItemId ? { ...i, quantity: parseInt(value) || 1 } : i
+      )
+    );
+  };
 
-      setCartItems((items) => items.filter((item) => (item.id || item._id) !== id));
+
+  const handleQuantityInputBlur = (cartItemId, value) => {
+    const quantity = Math.max(1, parseInt(value) || 1);
+    handleQuantityChange(cartItemId, quantity);
+  };
+
+ 
+  const handleQuantityInputKeyPress = (e, cartItemId, value) => {
+    if (e.key === 'Enter') {
+      e.target.blur(); // This will trigger the onBlur event
+    }
+  };
+
+  // Clear entire cart
+  const handleClearCart = async () => {
+    const confirmClear = window.confirm("Are you sure you want to clear your entire cart? This action cannot be undone.");
+    
+    if (!confirmClear) return;
+
+    setClearingCart(true);
+    try {
+      await clearCart();
+      setCartItems([]);
+      alert("Cart cleared successfully!");
     } catch (error) {
-      console.error('Error removing item:', error);
+      console.error("Error clearing cart:", error);
+      alert("Failed to clear cart. Please try again.");
+    } finally {
+      setClearingCart(false);
+    }
+  };
+
+  // Delete item with fallback methods
+  const handleDelete = async (cartItemId) => {
+    setActionLoading(cartItemId);
+    try {
+      // Try primary delete method
+      await deleteCartItem(cartItemId);
+      setCartItems((items) => items.filter((i) => i._id !== cartItemId));
+    } catch (error) {
+      console.error("Primary delete method failed:", error);
+      
+      // Try alternative POST method
+      try {
+        await deleteCartItemPost(cartItemId);
+        setCartItems((items) => items.filter((i) => i._id !== cartItemId));
+      } catch (postError) {
+        console.error("Alternative delete method failed:", postError);
+        alert("Failed to remove item. Please try again or contact support.");
+      }
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -111,8 +149,8 @@ export default function Cart() {
         <div className="min-h-screen bg-white mt-8 flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-600 mb-4">{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
             >
               Try Again
@@ -136,7 +174,30 @@ export default function Cart() {
                 Continue Shopping
               </button>
             </Link>
-            <h1 className="text-4xl font-bold text-black">My Cart</h1>
+            
+            <div className="flex justify-between items-center">
+              <h1 className="text-4xl font-bold text-black">My Cart</h1>
+              
+              {cartItems.length > 0 && (
+                <button
+                  onClick={handleClearCart}
+                  disabled={clearingCart}
+                  className="flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {clearingCart ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Clearing...
+                    </>
+                  ) : (
+                    <>
+                      <Trash className="w-4 h-4 mr-2" />
+                      Clear Cart
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -151,17 +212,44 @@ export default function Cart() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <>
+              {/* Cart Items Count and Clear Button */}
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
+                </h2>
+                
+                {/* <button
+                  onClick={handleClearCart}
+                  disabled={clearingCart}
+                  className="flex items-center bg-red-100 text-red-700 px-3 py-2 rounded-lg hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-red-300"
+                >
+                  {clearingCart ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-700 mr-2"></div>
+                      Clearing...
+                    </>
+                  ) : (
+                    <>
+                      <Trash className="w-4 h-4 mr-2" />
+                      Clear All Items
+                    </>
+                  )}
+                </button> */}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-4">
                 {cartItems.map((item) => {
                   const itemId = item.id || item._id;
                   const itemPrice = item.price || item.product?.price || 0;
                   const itemTotal = item.total || itemPrice * item.quantity;
-                  
+                  const isLoading = actionLoading === itemId;
+
                   return (
                     <div
                       key={itemId}
-                      className="bg-white rounded-lg p-7 shadow-md"
+                      className={`bg-white rounded-lg p-7 shadow-md ${isLoading ? 'opacity-50' : ''}`}
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
@@ -176,29 +264,24 @@ export default function Cart() {
                           <h3 className="font-medium text-black mb-2">
                             {item.name || item.product?.name}
                           </h3>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-black font-mono text-m">
-                              Qty: {item.quantity}
+                          <div className="flex items-center space-x-4">
+                            <span className="text-black font-mono text-sm">
+                              Quantity:
                             </span>
+                            <div className="flex items-center">
+                              <input
+                                type="number"
+                                min="1"
+                                max="99"
+                                value={item.quantity}
+                                onChange={(e) => handleQuantityInputChange(itemId, e.target.value)}
+                                onBlur={(e) => handleQuantityInputBlur(itemId, e.target.value)}
+                                onKeyPress={(e) => handleQuantityInputKeyPress(e, itemId, e.target.value)}
+                                disabled={isLoading}
+                                className="w-16 px-2 py-1 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:bg-gray-100"
+                              />
+                            </div>
                           </div>
-                        </div>
-
-                        <div className="flex items-center space-x-3">
-                          <button
-                            className="w-8 h-8 rounded-full cursor-pointer border border-black flex items-center justify-center hover:bg-[#d6d8d5]"
-                            onClick={() => handleQuantityChange(itemId, -1)}
-                          >
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          <span className="w-8 text-center font-medium">
-                            {item.quantity}
-                          </span>
-                          <button
-                            className="w-8 h-8 rounded-full cursor-pointer border border-black flex items-center justify-center hover:bg-[#d6d8d5]"
-                            onClick={() => handleQuantityChange(itemId, 1)}
-                          >
-                            <Plus className="w-4 h-4" />
-                          </button>
                         </div>
 
                         <div className="text-right">
@@ -208,10 +291,15 @@ export default function Cart() {
                         </div>
 
                         <button
-                          className="text-black hover:text-amber-800 hover:bg-[#d6d8d5] hover:rounded-lg hover:py-2 px-3 cursor-pointer p-1"
+                          className="text-black hover:text-amber-800 hover:bg-[#d6d8d5] hover:rounded-lg hover:py-2 px-3 cursor-pointer p-1 disabled:opacity-50"
                           onClick={() => handleDelete(itemId)}
+                          disabled={isLoading}
                         >
-                          <Trash className="w-5 h-5 text-black" />
+                          {isLoading ? (
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                          ) : (
+                            <Trash className="w-5 h-5 text-black" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -253,14 +341,15 @@ export default function Cart() {
                     </div>
                   </div>
 
-                  <Link to="/checkout">
-                    <button className="w-full bg-green-600 text-white cursor-pointer py-3 rounded-lg font-medium hover:bg-green-800 transition-colors">
-                      Proceed to Checkout
-                    </button>
-                  </Link>
+                    <Link to="/checkout">
+                      <button className="w-full bg-green-600 text-white cursor-pointer py-3 rounded-lg font-medium hover:bg-green-800 transition-colors">
+                        Proceed to Checkout
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
