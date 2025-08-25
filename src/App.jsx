@@ -12,6 +12,7 @@ import CheckOut from "./pages/CheckOut";
 import Otp from "./pages/Otp";
 import SingleProduct from "./components/Singleproduct";
 import { ToastContainer } from "react-toastify";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/single/:id",
     element: <SingleProduct />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 

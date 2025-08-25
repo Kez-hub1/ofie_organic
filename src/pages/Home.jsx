@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import logo from "../assets/itssss.jpg";
 import { Link } from "react-router";
 import wall from "../assets/wall4.jpeg";
+import wall1 from "../assets/resized.png";
 
 const Home = () => {
   const scrollToProducts = () => {
@@ -19,22 +20,22 @@ const Home = () => {
   };
    const features = [
     {
-      icon: <Leaf className="h-8 w-8" />,
+      icon: <Leaf className="h-8 w-8 disk" />,
       title: "100% Organic",
       description: "All our products are certified organic and free from harmful chemicals, pesticides, and synthetic additives."
     },
     {
-      icon: <Award className="h-8 w-8" />,
+      icon: <Award className="h-8 w-8 disk" />,
       title: "Premium Quality",
       description: "We source the finest ingredients from trusted suppliers and maintain the highest quality standards in production."
     },
     {
-      icon: <Heart className="h-8 w-8" />,
+      icon: <Heart className="h-8 w-8 disk" />,
       title: "Skin Loving",
       description: "Our formulations are designed to nourish and protect your skin while delivering visible results."
     },
     {
-      icon: <Shield className="h-8 w-8" />,
+      icon: <Shield className="h-8 w-8 disk" />,
       title: "Cruelty Free",
       description: "We never test on animals and are committed to ethical and sustainable business practices."
     }
@@ -55,13 +56,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-[#008236] leading-tight mb-4">
+              <h1 className="text-4xl about md:text-6xl font-bold text-[#008236] leading-tight mb-4">
                 Welcome to <br /><span className="text-[#008236]">Ofie Organics</span>
               </h1>
               <p className="text-base font-medium italic text-[#F59F26]  mt-[-1rem] mb-4">
                 Nature’s touch, bottled for your beauty.
               </p>
-              <p className="text-m md:text-md disk text-black mb-4 max-w-2xl opacity-90">
+              <p className="text-xl md:text-md disk text-black mb-4 max-w-2xl opacity-90">
                 Discover our premium collection of organic beauty products
                 crafted with the finest natural ingredients. Nourish your skin
                 with pure shea butter, revitalize with avocado body oil, and
@@ -85,7 +86,7 @@ const Home = () => {
               <div className="relative">
             <div className="bg-white rounded-3xl shadow-2xl p-8 transform  transition-transform duration-300">
               <img 
-                src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src={wall1}
                 alt="Organic beauty products"
                 className="w-full h-80 object-cover rounded-2xl"
               />
@@ -110,7 +111,7 @@ const Home = () => {
         className="py-8 bg-[#E6FAEE]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <h2 className="text-3xl md:text-5xl font-bold text-center  mb-4 justify-center mx-auto text-black ">
+           <h2 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-center  mb-4 justify-center mx-auto text-black ">
                 About Us
               </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -119,7 +120,7 @@ const Home = () => {
                 
               {/* </h2> */}
               
-              <p className="text-m disk text-black mb-8 leading-relaxed opacity-90">
+              <p className="text-xl md:text-md disk text-black mb-8 leading-relaxed opacity-90">
                 Introducing the Ofie brand Home of natural hand crafted and
                 Eco-friendly Body Care Skincare, Haircare and choices of foods
                 for healthy living. Our Vegan Bath Gels, Cake Soaps,
@@ -160,7 +161,7 @@ const Home = () => {
       <section id="products" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-gray-900 mb-4">
               Products
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">

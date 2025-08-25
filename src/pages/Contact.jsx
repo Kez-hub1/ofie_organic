@@ -53,11 +53,11 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <section className="my-6 container mx-auto mt- md: pt-10">
+      {/* <section className="my-6 container mx-auto mt- md: pt-10"> */}
         {/* <h1 className="text-white text-2xl font-bold swatson bg-[#1F1E17] inline py-3 px-2 mb-10 rounded">
           Find Us
         </h1> */}
-        <div className="aspect-[16/6] w-full rounded-lg overflow-hidden shadow-lg mt-4">
+        {/* <div className="aspect-[16/6] w-full rounded-lg overflow-hidden shadow-lg mt-4">
           <iframe
             className="w-full h-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.0409378830473!2d-0.17436122603075627!3d5.560951033602017!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9117c1a3e0e7%3A0x6040bd0138187e45!2sburo.!5e0!3m2!1sen!2sgh!4v1752200826126!5m2!1sen!2sgh"
@@ -67,7 +67,7 @@ const Contact = () => {
             title="GECA Location"
           />
         </div>
-      </section>
+      </section> */}
       <section
         id="contact"
         className="py-20 bg-gradient-to-br from-yellow-50 to-yellow-100"

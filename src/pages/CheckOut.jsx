@@ -103,7 +103,7 @@ export default function CheckOut() {
       <div className="bg-white px-4 py-8">
         <div className="max-w-6xl h-[7px] mx-auto">
           <Link to="/cart">
-            <button className="flex items-center text-black font-mono mt-5 bg-[#F5FBF2] rounded-2xl hover:bg-[#EADAC8] hover:rounded-full hover:px-3 cursor-pointer mb-4">
+            <button className="flex items-center text-black font-mono mt-5 bg-[#F5FBF2] rounded-2xl px-4 cursor-pointer mb-4">
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Cart
             </button>
@@ -251,7 +251,7 @@ export default function CheckOut() {
               </div>
               <div className="flex bg-gray-100 rounded-b-xl p-3">
                 <p className="text-center text-sm">
-                  After clicking “Pay now”, you will be redirected to Leashpay
+                  After clicking “Pay now”, you will be redirected to PayStack
                   to complete your purchase securely.
                 </p>
               </div>
@@ -338,6 +338,9 @@ export default function CheckOut() {
                 </form>
               )}
             </div>
+             <button className="w-full mt-6 bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2">
+              Pay Now
+            </button>
           </div> {/* ✅ CLOSE LEFT COLUMN */}
 
           {/* RIGHT: Order Summary */}

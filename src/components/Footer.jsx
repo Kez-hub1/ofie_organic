@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, Phone, Facebook, Instagram, Twitter, Leaf } from 'lucide-react';
-import logo from '../assets/logo11.png';
+import logo from '../assets/logo1.png';
 
 const Footer = () => {
   return (
@@ -17,27 +17,17 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1 space-y-6">
             <div className="flex items-center space-x-2">
-              <img src={logo} alt="Ofie Organics" className="h-26 ml-8 w-auto" />
+              <img src={logo} alt="Ofie Organics" className="h-26 ml-8 border-4 border-yellow-500 rounded w-auto"/>
             </div>
             <p className="text-green-100 leading-relaxed text-sm">
               Premium organic skincare products crafted with love and natural ingredients 
               for your skin's health and radiant beauty.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="bg-green-600 hover:bg-yellow-500 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
-                <Facebook className="h-5 w-5 text-white" />
-              </a>
-              <a href="#" className="bg-green-600 hover:bg-yellow-500 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
-                <Instagram className="h-5 w-5 text-white" />
-              </a>
-              <a href="#" className="bg-green-600 hover:bg-yellow-500 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
-                <Twitter className="h-5 w-5 text-white" />
-              </a>
-            </div>
+           
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className='md:ml-7'>
             <h3 className="text-lg font-bold mb-6 text-yellow-400 border-b border-green-600 pb-2 inline-block">Quick Links</h3>
             <ul className="space-y-3">
               <li><a href="#home" className="text-green-100 hover:text-yellow-400 transition-colors duration-200 flex items-center group">
@@ -87,8 +77,8 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-6 text-yellow-400 border-b border-green-600 pb-2 inline-block">Get In Touch</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3 group">
-                <div className="bg-green-600 p-2 rounded-full group-hover:bg-yellow-500 transition-colors">
-                  <Mail className="h-4 w-4 text-white" />
+                <div className="bg-yellow-500 p-2 rounded-full group-hover:bg-green-600 transition-all duration-300 transform hover:scale-110">
+                  <Mail className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <p className="text-green-100 text-sm">Email us at</p>
@@ -98,8 +88,8 @@ const Footer = () => {
                 </div>
               </div>
               <div className="flex items-center space-x-3 group">
-                <div className="bg-green-600 p-2 rounded-full group-hover:bg-yellow-500 transition-colors">
-                  <Phone className="h-4 w-4 text-white" />
+                <div className="bg-yellow-500 p-2 rounded-full hover:bg-green-600 transition-all duration-300 transform hover:scale-110">
+                  <Phone className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <p className="text-green-100 text-sm">Call us at</p>
@@ -108,6 +98,17 @@ const Footer = () => {
                   </a>
                 </div>
               </div>
+               <div className="flex space-x-4">
+              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+                <Facebook className="h-5 w-5 text-white" />
+              </a>
+              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+                <Instagram className="h-5 w-5 text-white" />
+              </a>
+              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+                <Twitter className="h-5 w-5 text-white" />
+              </a>
+            </div>
             </div>
           </div>
         </div>
@@ -121,16 +122,16 @@ const Footer = () => {
                 2025 Ofie Organics & Botanicals. Naturally crafted with love.
               </p>
             </div> */}
-            <div className="flex flex-wrap justify-center md:justify-end space-x-6">
+            <div className="flex flex-wrap justify-center  md:justify-end space-x-6">
               <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
                 Privacy Policy
               </a>
               <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
                 Terms of Service
               </a>
-              <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
+              {/* <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
                 Shipping Info
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
