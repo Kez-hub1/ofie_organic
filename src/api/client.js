@@ -84,6 +84,28 @@ export const updateCartItem = async (cartItemId, quantity) => {
   return response.data;
 };
 
+// Delete single cart item
+export const deleteCartItem = async (productId) => {
+  try {
+    const response = await apiClient.delete(
+      '/api/cart/remove',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          productId: productId
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Delete cart item error:', error);
+    throw error;
+  }
+};
+
 // Clear entire cart
 export const clearCart = async () => {
   try {
@@ -101,6 +123,3 @@ export const clearCart = async () => {
     throw error;
   }
 };
-
-
-

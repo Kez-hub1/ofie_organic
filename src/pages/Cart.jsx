@@ -3,7 +3,7 @@ import { ArrowLeft, Trash } from "lucide-react";
 import { Link } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { apiClient, updateCartItem, clearCart } from "../api/client.js";
+import { apiClient, updateCartItem, clearCart, deleteCartItem } from "../api/client.js";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -77,7 +77,7 @@ export default function Cart() {
     }
   };
 
-  // Clear entire cart
+ // Clear entire cart
   const handleClearCart = async () => {
     const confirmClear = window.confirm("Are you sure you want to clear your entire cart? This action cannot be undone.");
     
@@ -96,24 +96,29 @@ export default function Cart() {
     }
   };
 
-  // Delete item with fallback methods
-  const handleDelete = async (cartItemId) => {
-    setActionLoading(cartItemId);
+  
+  const handleDelete = async (item) => {
+    const confirmDelete = window.confirm(`Are you sure you want to remove "${item.name || item.product?.name}" from your cart?`);
+    
+    if (!confirmDelete) return;
+
+    const itemId = item.id || item._id;
+  
+    const productId = item.productId || item.product?._id || item.product?.id;
+    
+    if (!productId) {
+      alert("Unable to remove item: Product ID not found");
+      return;
+    }
+
+    setActionLoading(itemId);
     try {
-      // Try primary delete method
-      await deleteCartItem(cartItemId);
-      setCartItems((items) => items.filter((i) => i._id !== cartItemId));
+      await deleteCartItem(productId);
+      setCartItems((items) => items.filter((i) => (i._id || i.id) !== itemId));
+      alert("Item removed from cart successfully!");
     } catch (error) {
-      console.error("Primary delete method failed:", error);
-      
-      // Try alternative POST method
-      try {
-        await deleteCartItemPost(cartItemId);
-        setCartItems((items) => items.filter((i) => i._id !== cartItemId));
-      } catch (postError) {
-        console.error("Alternative delete method failed:", postError);
-        alert("Failed to remove item. Please try again or contact support.");
-      }
+      console.error("Error deleting cart item:", error);
+      alert("Failed to remove item from cart. Please try again.");
     } finally {
       setActionLoading(null);
     }
@@ -213,29 +218,11 @@ export default function Cart() {
             </div>
           ) : (
             <>
-              {/* Cart Items Count and Clear Button */}
+              {/* Cart Items Count */}
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-gray-800">
                   {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
                 </h2>
-                
-                {/* <button
-                  onClick={handleClearCart}
-                  disabled={clearingCart}
-                  className="flex items-center bg-red-100 text-red-700 px-3 py-2 rounded-lg hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-red-300"
-                >
-                  {clearingCart ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-700 mr-2"></div>
-                      Clearing...
-                    </>
-                  ) : (
-                    <>
-                      <Trash className="w-4 h-4 mr-2" />
-                      Clear All Items
-                    </>
-                  )}
-                </button> */}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -291,14 +278,15 @@ export default function Cart() {
                         </div>
 
                         <button
-                          className="text-black hover:text-amber-800 hover:bg-[#d6d8d5] hover:rounded-lg hover:py-2 px-3 cursor-pointer p-1 disabled:opacity-50"
-                          onClick={() => handleDelete(itemId)}
+                          className="text-black hover:text-red-600 hover:bg-red-50 hover:rounded-lg hover:py-2 px-3 cursor-pointer p-1 disabled:opacity-50 transition-colors"
+                          onClick={() => handleDelete(item)}
                           disabled={isLoading}
+                          title="Remove item from cart"
                         >
                           {isLoading ? (
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
                           ) : (
-                            <Trash className="w-5 h-5 text-black" />
+                            <Trash className="w-5 h-5" />
                           )}
                         </button>
                       </div>
