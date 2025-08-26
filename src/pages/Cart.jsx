@@ -3,7 +3,7 @@ import { ArrowLeft, Trash } from "lucide-react";
 import { Link } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { apiClient, updateCartItem, deleteCartItem, clearCart } from "../api/client.js";
+import { apiClient, updateCartItem, clearCart } from "../api/client.js";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
