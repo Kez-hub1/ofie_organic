@@ -102,16 +102,16 @@ const Profile = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
               <div className="text-center mb-6">
-                <div className="relative inline-block">
+                {/* <div className="relative inline-block">
                   <img 
-                    // src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
+                    src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
                     alt="Profile"
                     className="w-20 h-20 rounded-full object-cover mx-auto"
                   />
                   <button className="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full hover:bg-green-700 transition-colors">
                     <Camera className="h-4 w-4" />
                   </button>
-                </div>
+                </div> */}
                 <h3 className="text-xl font-bold text-gray-900 mt-4">{profileData.name}</h3>
                 <p className="text-gray-600">{profileData.email}</p>
                 <div className="flex items-center justify-center space-x-2 mt-2">

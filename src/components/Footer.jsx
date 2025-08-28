@@ -1,17 +1,10 @@
 import React from 'react';
-import { Mail, Phone, Facebook, Instagram, Twitter, Leaf } from 'lucide-react';
+import { Mail, Phone, Facebook, Instagram, Music2 } from 'lucide-react';
 import logo from '../assets/logo1.png';
 
 const Footer = () => {
   return (
     <footer className="bg-[#008236] text-white relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-10">
-        {/* <div className="absolute top-10 left-10 w-20 h-20 bg-green-300 rounded-full blur-xl"></div> */}
-        {/* <div className="absolute bottom-20 right-20 w-32 h-32 bg-yellow-300 rounded-full blur-2xl"></div> */}
-        {/* <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-green-400 rounded-full blur-lg"></div> */}
-      </div>
-      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
@@ -19,7 +12,7 @@ const Footer = () => {
             <div className="flex items-center space-x-2">
               <img src={logo} alt="Ofie Organics" className="h-26 ml-8 border-4 border-yellow-500 rounded w-auto"/>
             </div>
-            <p className="text-green-100 leading-relaxed text-sm">
+            <p className="text-green-100 leading-relaxed text-m">
               Premium organic skincare products crafted with love and natural ingredients 
               for your skin's health and radiant beauty.
             </p>
@@ -55,7 +48,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><a href="#" className="text-green-100 hover:text-yellow-400 transition-colors duration-200 flex items-center group">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-3 group-hover:bg-yellow-400 transition-colors"></span>
-                Body Oils
+                Skincare
               </a></li>
               <li><a href="#" className="text-green-100 hover:text-yellow-400 transition-colors duration-200 flex items-center group">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-3 group-hover:bg-yellow-400 transition-colors"></span>
@@ -99,14 +92,14 @@ const Footer = () => {
                 </div>
               </div>
                <div className="flex space-x-4">
-              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+              <a href="https://www.facebook.com/tinatulip.danquah?mibextid=ZbWKwL" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
                 <Facebook className="h-5 w-5 text-white" />
               </a>
-              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+              <a href="https://www.instagram.com/ofieorganics?igsh=MTN4bzZuNXhocDlnbw==" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
                 <Instagram className="h-5 w-5 text-white" />
               </a>
-              <a href="#" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
-                <Twitter className="h-5 w-5 text-white" />
+              <a href="https://www.tiktok.com/@ofie.organics?_t=ZM-8zC95ltvMo9&_r=1" className="bg-yellow-500 hover:bg-green-600 p-2 rounded-full transition-all duration-300 transform hover:scale-110">
+                <Music2 className="h-5 w-5 text-white" />
               </a>
             </div>
             </div>
@@ -116,12 +109,6 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="border-t border-green-600 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            {/* <div className="flex items-center space-x-2">
-              <img src={logo} alt="Ofie Organics" className="h-6 w-auto" />
-              <p className="text-green-200 text-sm">
-                2025 Ofie Organics & Botanicals. Naturally crafted with love.
-              </p>
-            </div> */}
             <div className="flex flex-wrap justify-center  md:justify-end space-x-6">
               <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
                 Privacy Policy
@@ -129,9 +116,6 @@ const Footer = () => {
               <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
                 Terms of Service
               </a>
-              {/* <a href="#" className="text-green-200 hover:text-yellow-400 text-sm transition-colors duration-200">
-                Shipping Info
-              </a> */}
             </div>
           </div>
         </div>

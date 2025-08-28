@@ -96,9 +96,9 @@ const Navbar = () => {
                   <img src={cart} alt="Cart" className="w-7 h-7 group-hover:scale-110 transition-transform" />
                 </div>
                 {/* Cart Badge */}
-                <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                {/* <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                   0
-                </span>
+                </span> */}
               </Link>
 
               {/* Admin Dropdown - Enhanced */}
@@ -127,14 +127,14 @@ const Navbar = () => {
                         <LogIn size={16} />
                         <span>Login</span>
                       </Link>
-                      <Link
+                      {/* <Link
                         to="/profile"
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
                         onClick={() => setShowProfileDropdown(false)}
                       >
-                        <User size={16} />
-                        <span>My Profile</span>
-                      </Link>
+                        <User size={16} /> */}
+                        {/* <span>My Profile</span> */}
+                      {/* </Link> */}
                       {/* <Link
                         to="/dashboard"
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
@@ -145,12 +145,13 @@ const Navbar = () => {
                       </Link> */}
                       
                     </div>
-                    
                     <div className="border-t border-gray-100 pt-2">
+                      <Link to="/logout">
                       <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors">
                         <LogOut size={16} />
-                        <span>Sign Out</span>
+                        <span>LogOut</span>
                       </button>
+                      </Link>
                     </div>
                   </div>
                 )}

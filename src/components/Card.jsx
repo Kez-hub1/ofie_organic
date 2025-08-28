@@ -75,7 +75,7 @@ const Card = ({
           </div>
         </div>
 
-        <button
+        {/* <button
           onClick={toggleFavorite}
           className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-300 shadow-lg"
         >
@@ -84,7 +84,7 @@ const Card = ({
               isFavorited ? 'text-red-500 fill-current' : 'text-gray-600'
             }`} 
           />
-        </button>
+        </button> */}
 
       
         {product.originalPrice && product.originalPrice > product.price && (

@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import PaymentPage from "./pages/Paymentpage";
 import NotFound from "./pages/NotFound";
+import LogOut from "./components/LogOut";
 
 
 const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
     path:"/notfound",
     element: <NotFound/>
   },
+  {
+    path: "/logout",
+    element: <LogOut/>
+  }
 ]);
 
 const App = () => {

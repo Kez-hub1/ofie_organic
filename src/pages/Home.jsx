@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import Products from "./Products";
 import Card from "../components/Card";
-import { ArrowRight, Leaf, Sparkles, Heart, Award, Shield } from "lucide-react";
-import image1 from "../assets/image.png";
-import shea from "../assets/shea.png";
+import { ArrowRight, Leaf, Heart, Award, Shield } from "lucide-react";
 import Footer from "../components/Footer";
-import logo from "../assets/itssss.jpg";
-import { Link } from "react-router";
+import { Link } from "react-router"; 
 import wall from "../assets/wall4.jpeg";
 import wall1 from "../assets/resized.png";
+import { fetchProducts } from "../api/client"; 
+
+const TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const scrollToProducts = () => {
     const element = document.getElementById("products");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-   const features = [
+
+  const features = [
     {
       icon: <Leaf className="h-8 w-8 disk" />,
       title: "100% Organic",
@@ -41,6 +44,19 @@ const Home = () => {
     }
   ];
 
+  useEffect(() => {
+    async function getProducts() {
+      try {
+        const data = await fetchProducts(TOKEN);
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getProducts();
+  }, []);
 
   return (
     <>
@@ -48,14 +64,12 @@ const Home = () => {
 
       {/* Hero Section */}
       <section
-        id="home" 
+        id="home"
         className="relative min-h-screen flex items-center justify-center bg-[#F5FBF2] overflow-hidden"
       >
-        {/* <img src={wall} alt="" className="absolute inset-0 w-full h-full object-cover" /> */}
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
+            <div className="text-center mt-20 lg:text-left">
               <h1 className="text-4xl about md:text-6xl font-bold text-[#008236] leading-tight mb-4">
                 Welcome to <br /><span className="text-[#008236]">Ofie Organics</span>
               </h1>
@@ -68,58 +82,42 @@ const Home = () => {
                 with pure shea butter, revitalize with avocado body oil, and
                 cleanse with our gentle organic formulas.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col items-center sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link to="/products">
-                <button
-                  onClick={scrollToProducts}
-                  className="bg-[#F59F26] text-white px-8 py-4 rounded-full hover:bg-[#008236] transition-colors cursor-pointer flex items-center justify-center space-x-2 text-lg mt-6 font-medium shadow-lg"
-                >
-                  <span>Shop Now</span>
-                  <ArrowRight className="h-5 w-5" />
-                </button>
+                  <button
+                    onClick={scrollToProducts}
+                    className="bg-[#F59F26] text-white px-8 py-4 rounded-full hover:bg-[#008236] transition-colors cursor-pointer flex items-center justify-center space-x-2 text-lg mt-6 font-medium shadow-lg"
+                  >
+                    <span>Shop Now</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
                 </Link>
-                {/* <button className="border-2 border-black text-black px-8 py-4 rounded-full hover:bg-black hover:text-white transition-colors text-lg font-medium">
-                  Learn More
-                </button> */}
               </div>
             </div>
-              <div className="relative">
-            <div className="bg-white rounded-3xl shadow-2xl p-8 transform  transition-transform duration-300">
-              <img 
-                src={wall1}
-                alt="Organic beauty products"
-                className="w-full h-80 object-cover rounded-2xl"
-              />
-              <div className="absolute -top-4 -right-4 bg-green-100 rounded-full p-4">
-
+            <div className="relative">
+              <div className="bg-white rounded-3xl shadow-2xl p-8 transform  transition-transform duration-300">
+                <img
+                  src={wall}
+                  alt="Organic beauty products"
+                  className="w-full h-80 object-cover rounded-2xl"
+                />
+                <div className="absolute -top-4 -right-4 bg-green-100 rounded-full p-4"></div>
               </div>
-              </div>
-              </div>
-
-          
+            </div>
           </div>
         </div>
-
-        {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-black rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-black rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div> */}
       </section>
+
       <section
         id="about"
         className="py-8 bg-[#E6FAEE]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <h2 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-center  mb-4 justify-center mx-auto text-black ">
-                About Us
-              </h2>
+          <h2 className="text-4xl about md:text-4xl lg:text-6xl font-bold text-center  mb-4 justify-center mx-auto text-black ">
+            About Us
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              {/* <h2 className="text-3xl md:text-4xl font-bold text-black mb-6"> */}
-                
-              {/* </h2> */}
-              
               <p className="text-xl md:text-md disk text-black mb-8 leading-relaxed opacity-90">
                 Introducing the Ofie brand Home of natural hand crafted and
                 Eco-friendly Body Care Skincare, Haircare and choices of foods
@@ -132,7 +130,6 @@ const Home = () => {
                 also call us for counseling tips
               </p>
             </div>
-
             <div className="relative">
               <img
                 src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -141,19 +138,19 @@ const Home = () => {
               />
             </div>
           </div>
-           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className="text-center group">
-              <div className="bg-green-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
-                <div className="text-[#008236]">
-                  {feature.icon}
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="text-center group">
+                <div className="bg-green-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+                  <div className="text-[#008236]">
+                    {feature.icon}
+                  </div>
                 </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -168,51 +165,21 @@ const Home = () => {
               Discover our collection of organic products crafted with nature's finest ingredients
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card 
-              product={{
-                id: 1,
-                name: 'Organic Shea Butter Cream',
-                price: 45.00,
-                image: shea,
-                description: 'Pure organic shea butter cream for smooth, nourished skin',
-                // isOnSale: true,
-                // isNew: false,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
-            
-            <Card 
-              product={{
-                id: 2,
-                name: 'Natural Coconut Oil Moisturizer',
-                price: 38.00,
-                image: image1,
-                description: 'Hydrating coconut oil moisturizer for all skin types',
-                isOnSale: false,
-                // isNew: true,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
-            
-            <Card 
-              product={{
-                id: 3,
-                name: 'Organic Honey Face Mask',
-                price: 32.00,
-                image: logo,
-                description: 'Rejuvenating honey face mask for glowing skin',
-                isOnSale: false,
-                // isNew: false,
-                category: 'Skincare'
-              }}
-              onAddToCart={(product) => console.log('Added to cart:', product)}
-            />
+            {loading ? (
+              <div className="col-span-full text-center text-lg">Loading...</div>
+            ) : (
+              products.slice(0, 3).map((product) => (
+                <Card
+                  key={product.id || product._id}
+                  product={product}
+                  onAddToCart={() => console.log("Added to cart:", product)}
+                />
+              ))
+            )}
           </div>
-          
+
           <div className="text-center mt-12">
             <Link to="/products">
               <button className="bg-[#F59F26] hover:bg-[#008236]  text-white px-8 py-3 rounded-full font-semibold transition-colors duration-200 flex items-center gap-2 cursor-pointer mx-auto">
@@ -224,31 +191,25 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section */}
-      
       <section className="py-7 md:h-90 bg-white">
         <div className="mt-0  text-center">
-            <div className="bg-[#F5FBF2] backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 ">
-                Ready to Transform Your Beauty Routine?
-              </h3>
-              <p className="text-gray-600 mb-6 text-lg">
-                Join thousands of satisfied customers who've discovered the power of natural beauty. 
-                We offer custom orders, wholesale solutions, and personalized beauty consultations.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to= "/products">
+          <div className="bg-[#F5FBF2] backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 ">
+              Ready to Transform Your Beauty Routine?
+            </h3>
+            <p className="text-gray-600 mb-6 text-lg">
+              Join thousands of satisfied customers who've discovered the power of natural beauty.
+              We offer custom orders, wholesale solutions, and personalized beauty consultations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/products">
                 <button className="bg-[#F59F26] text-white px-8 py-3 rounded-full hover:bg-[#008236] cursor-pointer transition-colors font-semibold shadow-md hover:shadow-lg">
                   Shop Now
                 </button>
-                </Link>
-                {/* <button className="text-green-600 px-8 py-3 rounded-full h
-                over:bg-green-50 transition-colors font-semibold">
-                  Get Beauty Tips →
-                </button> */}
-              </div>
+              </Link>
             </div>
           </div>
+        </div>
       </section>
       <Footer />
     </>
