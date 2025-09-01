@@ -24,7 +24,7 @@ export const addToCart = async (productId, quantity = 1) => {
       Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
     },
   });
-  
+    
   return response.data;
 };
 
@@ -48,7 +48,7 @@ export async function fetchSingleProduct(id, token) {
 
 export const makePayment = async (paymentData) => {
   console.log('Making payment with data:', paymentData);
-  
+    
   try {
     const response = await apiClient.post(
       '/api/payment/checkout',
@@ -60,7 +60,7 @@ export const makePayment = async (paymentData) => {
         },
       }
     );
-    
+        
     console.log('Payment response:', response.data);
     return response.data;
   } catch (error) {
@@ -120,6 +120,31 @@ export const clearCart = async () => {
     return response.data;
   } catch (error) {
     console.error('Clear cart error:', error);
+    throw error;
+  }
+};
+
+// Logout function
+export const logoutUser = async () => {
+  try {
+    const response = await apiClient.post(
+      '/api/auth/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    
+    localStorage.removeItem("ACCESS_TOKEN");
+    
+    return response.data;
+  } catch (error) {
+    console.error('Logout error:', error);
+    
+    localStorage.removeItem("ACCESS_TOKEN");
     throw error;
   }
 };
