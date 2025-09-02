@@ -12,7 +12,6 @@ import CheckOut from "./pages/CheckOut";
 import Otp from "./pages/Otp";
 import SingleProduct from "./components/Singleproduct";
 import { ToastContainer } from "react-toastify";
-import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import LogOut from "./components/LogOut";
 
@@ -57,10 +56,6 @@ const router = createBrowserRouter([
   {
     path: "/single/:id",
     element: <SingleProduct />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
   },
   {
     path:"/notfound",

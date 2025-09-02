@@ -164,14 +164,14 @@ const Navbar = () => {
                             <Settings size={16} />
                             <span>Dashboard</span>
                           </Link> */}
-                          <Link
+                          {/* <Link
                             to="/profile"
                             className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
                             onClick={() => setShowProfileDropdown(false)}
                           >
                             <User size={16} />
                             <span>Profile</span>
-                          </Link>
+                          </Link> */}
                         </>
                       )}
                     </div>
