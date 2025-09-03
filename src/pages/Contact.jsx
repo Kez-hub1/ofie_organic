@@ -11,7 +11,6 @@ const Contact = () => {
     message: "",
   });
 
-  // ...existing code...
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
