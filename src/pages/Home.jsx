@@ -72,6 +72,7 @@ const Home = () => {
             <div className="text-center mt-20 lg:text-left">
               <h1 className="text-4xl about md:text-6xl font-bold text-[#008236] leading-tight mb-4">
                 Welcome to <br /><span className="text-[#008236]">Ofie Organics</span>
+                <br /><span className="text-[#008236]">& Botanicals</span>
               </h1>
               <p className="text-base font-medium italic text-[#F59F26]  mt-[-1rem] mb-4">
                 Nature’s touch, bottled for your beauty.

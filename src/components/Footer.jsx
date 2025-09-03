@@ -86,8 +86,8 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-green-100 text-sm">Call us at</p>
-                  <a href="tel:+233072429" className="text-white hover:text-yellow-400 transition-colors font-medium">
-                    +233 072 4290
+                  <a href="tel:+233200724290" className="text-white hover:text-yellow-400 transition-colors font-medium">
+                    +233 20072 4290
                   </a>
                 </div>
               </div>

@@ -38,31 +38,29 @@ export default function CheckOut() {
   });
 
   const countries = [
-    { name: "Ghana", code: "+233", flag: "🇬🇭" },
-    { name: "Nigeria", code: "+234", flag: "🇳🇬" },
-    { name: "United States", code: "+1", flag: "🇺🇸" },
-    { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
-    { name: "Canada", code: "+1", flag: "🇨🇦" },
-    { name: "South Africa", code: "+27", flag: "🇿🇦" },
+    { name: "Ghana", code: "+233" },
+    { name: "Nigeria", code: "+234"},
+    { name: "United States", code: "+1"},
+    { name: "United Kingdom", code: "+44" },
   ];
 
   const shippingOptions = [
     {
       id: "within-accra",
       label: "Within Accra",
-      price: "₵30.00",
+      price: "₵50.00",
       desc: "Delivery fee for items within Accra",
     },
     {
       id: "tema",
       label: "Tema, Dodowa, Katamanso, Kpone",
-      price: "₵50.00",
+      price: "₵60.00",
       desc: "Delivery fee for items to Tema and Beyond",
     },
     {
       id: "outside-greater-accra",
       label: "Outside Greater Accra",
-      price: "₵65.00",
+      price: "₵80.00",
       desc: "Delivery fee for items outside Greater Accra",
     },
   ];
