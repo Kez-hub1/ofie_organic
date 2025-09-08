@@ -5,7 +5,6 @@ import { ArrowRight, Leaf, Heart, Award, Shield } from "lucide-react";
 import Footer from "../components/Footer";
 import { Link } from "react-router"; 
 import wall from "../assets/wall4.jpeg";
-import wall1 from "../assets/resized.png";
 import { fetchProducts } from "../api/client"; 
 
 const TOKEN = localStorage.getItem("ACCESS_TOKEN");
