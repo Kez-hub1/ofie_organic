@@ -18,6 +18,7 @@ const Card = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
+  const token = localStorage.getItem("ACCESS_TOKEN");
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
@@ -38,7 +39,12 @@ const Card = ({
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast.error("Failed to add product to cart");
+      if (!token) {
+       toast.success("Please log in to add items to your cart.");
+      } else {
+         toast.error(error.response?.data?.message || "Failed to add product to cart.");
+      }
+      
     } finally {
       setIsLoading(false);
     }

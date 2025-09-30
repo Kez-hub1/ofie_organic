@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { s } from "framer-motion/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -11,11 +14,9 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-  };
+  const EMAILJS_SERVICE_ID = "service_91mewxw";
+  const EMAILJS_TEMPLATE_ID = "template_1cmitoc";
+  const EMAILJS_PUBLIC_ID = "qGX3zapyk5-ChwmUx";
 
   const handleChange = (e) => {
     setFormData({
@@ -28,16 +29,27 @@ const Contact = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     setResult("Sending....");
-    const formData = new FormData(event.target);
-
-    formData.append("access_key", "d541e169-9612-41db-9dfe-02311f35a110");
-
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await response.json();
+    const data = {
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: EMAILJS_TEMPLATE_ID,
+      user_id: EMAILJS_PUBLIC_ID,
+      
+    };
+    const response = await axios.post(
+      "https://api.emailjs.com/api/v1.0/email/send",
+      {
+        ...data,
+        template_params: {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      }
+    );
+    toast.success("Message sent successfully!");
+    setFormData({ name: "", email: "", subject: "", message: "" });
+    
 
     if (data.success) {
       setResult("Form Submitted Successfully");
@@ -47,7 +59,6 @@ const Contact = () => {
       setResult(data.message);
     }
   };
-
 
   return (
     <>
@@ -171,7 +182,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-medium text-black">Phone</h4>
-                      <p className="text-black opacity-80">+233 072 4290</p>
+                      <p className="text-black opacity-80">+233 2007 24290</p>
                     </div>
                   </div>
 
@@ -194,7 +205,7 @@ const Contact = () => {
                     <div>
                       <h4 className="font-medium text-black">Address</h4>
                       <p className="text-black opacity-80">
-                        123 Organic Street
+                        Pokuase
                         <br />
                         Accra, Ghana
                       </p>
